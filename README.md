@@ -1,8 +1,4 @@
-# ECE30Project
-
-ECE 30
-Introduction to Computer Engineering
-Programming Project {Maximum Subarray Sum Problem}
+# ECE 30 Introduction to Computer Engineering Programming Project {Maximum Subarray Sum Problem}
 
 1. Project Description
 The goal of this project is to implement the maximum sum subarray problem in MIPS. The maximum subarray sum takes as input an array of integers and produces as output the maximum sum of any contiguous subarray in the original array.
