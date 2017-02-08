@@ -97,4 +97,7 @@ FindMax3:
 #	$a3 holds the third number.
 #	$v0 contains the maximum among the 3 numbers
 #   Write your code here
+
+
+hello 
 jr $ra
