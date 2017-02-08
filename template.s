@@ -79,7 +79,15 @@ FindMax2:
 #	$a1 holds the first number.
 #	$a2 holds the second number.
 #	$v0 contains the maximum between the 2 input numbers.
-#   Write your code here
+
+beq $a1 $a2 first           # if they are the same number, just use first num
+slt $t0 $a1 $a2             # if $a1 is maximum, $t0 is 0
+beq $t0 $0 first            # check to see if $a1 is maximum
+lw $v0 0($a2)               # $a2 is maximum
+
+first:
+lw $v0 0($a1)
+
 jr $ra
 
 FindMax3:
