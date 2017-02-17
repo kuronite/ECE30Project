@@ -123,3 +123,6 @@ From the flowchart it can be seen that
 •	The MaxSumSubArray function keeps on recursively calling itself to divide the array more and more till only a singleton set is left. 
 •	The MaxCrossingSum is obtained as finding the maximum sum of the subarray formed such that it includes at least one element from both left and right subarrays. 
 •	Finally, we return the maximum value among the 3 values. The recursions will implicitly compute values in a bottom to top manner till we get the final value of the Maximum subarray sum at the root of the tree.
+
+
+#Link: https://docs.google.com/a/eng.ucsd.edu/viewer?a=v&pid=sites&srcid=ZW5nLnVjc2QuZWR1fGVjZS0zMHxneDo5YWY4NWRlMDQ1NTI0NmE
