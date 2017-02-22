@@ -58,10 +58,15 @@ beq $a3, $zero, zero
 
 # direction is 1
 
+li $x,             # Saves results in a register x
+la $v0, $t0        # Returns maximum subarray
+jr   $ra
+
 # directions i 0 
 zero:
 
-
+li $x,             # Saves results in a register x
+la $v0, $t0        # Returns maximum subarray
 jr   $ra
 
 ##########################################################
