@@ -53,6 +53,11 @@ MaxSumBoundary:
 #	$a3 is the direction (either 0 or 1)
 #	$v0 returns the maximum subarray
 
+addiu $sp, $sp, -32        # Allocate space in stack frame
+sw $ra, 20($sp)            # $ra stored on stack frame
+sw $fp, 16($sp)            # $fp stored on stack frame
+addiu $fp, $sp, 32         # end callee organizational tasks, setup $fp
+
 # Check to see if s == e
 beq $a1, $a2, equal        # Compares s with e
 
@@ -60,19 +65,38 @@ beq $a1, $a2, equal        # Compares s with e
 # s != e, check what direction
 beq $a3, $zero, zero       # Compare direction to 0
 
+
 # direction is 1
 li $x,                     # Saves results in a register x
 la $v0, $t0                # Returns maximum subarray
-jr   $ra
+
+lw $ra, 20($sp)            # Restores $ra
+lw $fp, 16($sp)            # Restores $sp
+addiu $sp, $sp, 32         # End callee organizational tasks, pop stack frame
+jr   $ra                   # Return to caller
+
+
 
 # direction is 0 
 zero:
 li $x,                     # Saves results in a register x
 la $v0, $t0                # Returns maximum subarray
+
+lw $ra, 20($sp)            # Restores $ra
+lw $fp, 16($sp)            # Restores $sp
+addiu $sp, $sp, 32         # End callee organizational tasks, pop stack frame
+jr   $ra                   # Return to caller
 jr   $ra
 
+
+
 equal:
-la $v0, $
+la $v0, $                  # Returns maximum subarray
+lw $ra, 20($sp)            # Restores $ra
+lw $fp, 16($sp)            # Restores $sp
+addiu $sp, $sp, 32         # End callee organizational tasks, pop stack frame
+jr   $ra                   # Return to caller
+
 ##########################################################
 MaximumCrossingSum:
 #	$a0 contains arr[]
