@@ -1,6 +1,6 @@
 # Project ECE 30 Winter 2017
 # Maximum Subarray Sum
-# Student 1 : PID A
+# Student 1 : PID A10902921
 # Magana, Cesar 
 # Student 2 : PID A12127824
 # Tran, Wilson 
