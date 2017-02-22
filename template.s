@@ -94,6 +94,9 @@ FindMax2:
 #	$a2 holds the second number.
 #	$v0 contains the maximum between the 2 input numbers.
 
+addi $sp, $sp, -8		#allocate memory
+sw $ra 0($sp)			#store RA from FindMax3
+
 beq $a1 $a2 first           # if they are the same number, just use first num
 slt $t0 $a1 $a2             # if $a1 is maximum, $t0 is 0
 beq $t0 $0 first            # check to see if $a1 is maximum
@@ -102,7 +105,8 @@ lw $v0 0($a2)               # $a2 is maximum
 first:
 lw $v0 0($a1)
 
-jr $ra
+lw $ra, 0($sp)			#load Ta from FindMax3
+jr $ra				#jump to FindMax3
 
 FindMax3:
 ##########################################################
@@ -127,6 +131,10 @@ move $a2, $a3
 
 jal FindMax2		#call FindMax2 for new a1 and a3
 			#FindMax2 will return v0 = max of all 3 values.
+
+move $a1, $t1		#return the values from temp to arg
+move $a2, $t2
+move $a3, $t3
 
 move $v0, $a0		# a0 stores value that will be printed, in this case the MAX3
 li $v0, 1		#print the max of all 3 values
