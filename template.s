@@ -1,9 +1,9 @@
 # Project ECE 30 Winter 2017
 # Maximum Subarray Sum
-# Student 1 : PID A50001111
-# Lastname, Firstname 
-# Student 2 : PID A50001112
-# Lastname, Firstname. 
+# Student 1 : PID A
+# Magana, Cesar 
+# Student 2 : PID A12127824
+# Tran, Wilson 
 
 .data ## Data declaration section
 ## String to be printed:
