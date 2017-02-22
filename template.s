@@ -71,8 +71,6 @@ beq $a3, $zero, zero       # Compare direction to 0
 
 
 # direction is 1
-li $x,                     # Stores the new max 
-la $v0, $t0                # Returns maximum subarray
 
 lw $ra, 0($sp)             # Restores $ra
 lw $fp, 4($sp)             # Restores $sp
@@ -83,8 +81,7 @@ jr   $ra                   # Return to caller
 
 # direction is 0 
 zero:
-sll $t0, $a1, 1            # Shift to 
-lw $v0, 0($t0)
+lw $v0, 0($t0)             # Returns that value as max
 
 lw $ra, 20($sp)            # Restores $ra
 lw $fp, 16($sp)            # Restores $sp
@@ -94,8 +91,8 @@ jr   $ra                   # Return to caller
 
 
 equal:
-sll $t0, $a1, 5            # Saves value of arr[s]
-lw $v0, 0($t0)             # Returns arr[s] as max
+sll $t0, $a1, 2           # Shift 8 bits to find value of arr
+lw $v0, 0($t0)            # Returns arr[s] as max
 
 lw $ra, 0($sp)            # Restores $ra
 lw $fp, 4($sp)            # Restores $sp
