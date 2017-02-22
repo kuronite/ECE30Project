@@ -53,21 +53,59 @@ MaxSumBoundary:
 #	$a3 is the direction (either 0 or 1)
 #	$v0 returns the maximum subarray
 
-# Check what directiond
-beq $a3, $zero, zero
+addiu $sp, $sp, -32        # Allocate space in stack frame
+sw $ra, 0($sp)             # $ra stored on stack frame
+sw $fp, 4($sp)             # $fp stored on stack frame
+sw $a0, 8($sp)             # $a0 stored on stack frame
+sw $a1, 12($sp)            # $a0 stored on stack frame
+sw $a2, 16($sp)            # $a0 stored on stack frame
+sw $a3, 20($sp)            # $a0 stored on stack frame
+addiu $fp, $sp, 32         # end callee organizational tasks, setup $fp
+
+# Check to see if s == e
+beq $a1, $a2, equal        # Compares s with e
+
+
+# s != e, check what direction
+beq $a3, $zero, zero       # Compare direction to 0
+
 
 # direction is 1
+li $x,                     # Stores the new max 
+la $v0, $t0                # Returns maximum subarray
 
-li $x,             # Saves results in a register x
-la $v0, $t0        # Returns maximum subarray
-jr   $ra
+lw $ra, 0($sp)             # Restores $ra
+lw $fp, 4($sp)             # Restores $sp
+addiu $sp, $sp, 32         # End callee organizational tasks, pop stack frame
+jr   $ra                   # Return to caller
 
-# directions is 0 
+
+
+# direction is 0 
 zero:
+sll $t0, $a1, 1            # Shift to 
+lw $v0, 0($t0)
 
-li $x,             # Saves results in a register x
-la $v0, $t0        # Returns maximum subarray
-jr   $ra
+lw $ra, 20($sp)            # Restores $ra
+lw $fp, 16($sp)            # Restores $sp
+addiu $sp, $sp, 32         # End callee organizational tasks, pop stack frame
+jr   $ra                   # Return to caller
+
+
+
+equal:
+sll $t0, $a1, 5            # Saves value of arr[s]
+lw $v0, 0($t0)             # Returns arr[s] as max
+
+lw $ra, 0($sp)            # Restores $ra
+lw $fp, 4($sp)            # Restores $sp
+lw $a0, 8($sp)            # Restores $a0
+lw $a1, 12($sp)           # Restores $a1
+lw $a2, 16($sp)           # Restores $a1
+lw $a3, 20($sp)           # Restores $a3
+
+addiu $sp, $sp, 32         # End callee organizational tasks, pop stack frame
+jr   $ra                   # Return to caller
 
 ##########################################################
 MaximumCrossingSum:
@@ -77,13 +115,6 @@ MaximumCrossingSum:
 #	$a3 contains e
 #	$v0 returns the maximum sum of arrays that cross the midpoint
 #   Write your code here
-
-a0 contains an array of size x
-add array elements a to m
-add array aelements m+1 to e
-
-v0 = the two sum 
-
 jr $ra
 
 
@@ -93,12 +124,7 @@ MaximumSubArraySum:
 #	$a1 contains s
 #	$a2 contains e
 #   Write your code here
-
-
-
 jr $ra
-
-
 
 ##########################################################
 FindMax2:
@@ -106,21 +132,19 @@ FindMax2:
 #	$a2 holds the second number.
 #	$v0 contains the maximum between the 2 input numbers.
 
-#####NEED TO FIX THE PROCEDURAL DUTIES BETWEEN FINDMAX3 AND FINDMAX2 BUT I BELIEVE THE CODE IS MOSTLY RIGHT
+addi $sp, $sp, -8             #allocate memory
+sw $ra, 0($sp)	              #store RA from FindMax3
 
-addi $sp, $sp, -8		#allocate memory
-sw $ra 0($sp)			#store RA from FindMax3
-
-beq $a1 $a2 first           # if they are the same number, just use first num
-slt $t0 $a1 $a2             # if $a1 is maximum, $t0 is 0
-beq $t0 $0 first            # check to see if $a1 is maximum
-lw $v0 0($a2)               # $a2 is maximum
+beq $a1, $a2, first           # if they are the same number, just use first num
+slt $t0, $a1, $a2             # if $a1 is maximum, $t0 is 0
+beq $t0, $0, first            # check to see if $a1 is maximum
+lw $v0, 0($a2)                # $a2 is maximum
 
 first:
-lw $v0 0($a1)
+lw $v0, 0($a1)                # load $a1 as maximum
 
-lw $ra, 0($sp)			#load Ta from FindMax3
-jr $ra				#jump to FindMax3
+lw $ra, 0($sp)	              # load ra from FindMax3
+jr $ra                        # jump to FindMax3
 
 FindMax3:
 ##########################################################
