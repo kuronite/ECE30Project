@@ -98,6 +98,11 @@ FindMax3:
 #	$v0 contains the maximum among the 3 numbers
 #   Write your code here
 
-
-hello 
+call  FindMax2 for variables a1 and a2
+get max from FindMax2 $v0
+	move $v0 to what will act as the new a1
+call FindMax2 for new a1 and a3
+	FindMax2 will return max of all 3 values.
+print the max of all 3 values
+ 
 jr $ra
