@@ -114,10 +114,12 @@ FindMax3:
 #	$a2 holds the second number.
 #	$a3 holds the third number.
 #	$v0 contains the maximum among the 3 numbers
-#   Write your code here
+#   Write your code here 
+
+#####NEED TO FIX THE PROCEDURAL DUTIES BETWEEN FINDMAX3 AND FINDMAX2 BUT I BELIEVE THE CODE IS MOSTLY RIGHT
 
 addi $sp, $sp, -8	#allocate memory
-sw $ra, 0($sp)
+sw $ra, 0($sp)		#store RA from caller that called  FindMax3
 
 add $t1, $t1, $a1	#store arguments to be compared in separe registers for safety
 add $t2, $t2, $a2
