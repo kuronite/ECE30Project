@@ -53,22 +53,26 @@ MaxSumBoundary:
 #	$a3 is the direction (either 0 or 1)
 #	$v0 returns the maximum subarray
 
-# Check what directiond
-beq $a3, $zero, zero
+# Check to see if s == e
+beq $a1, $a2, equal        # Compares s with e
+
+
+# s != e, check what direction
+beq $a3, $zero, zero       # Compare direction to 0
 
 # direction is 1
-
-li $x,             # Saves results in a register x
-la $v0, $t0        # Returns maximum subarray
+li $x,                     # Saves results in a register x
+la $v0, $t0                # Returns maximum subarray
 jr   $ra
 
-# directions i 0 
+# direction is 0 
 zero:
-
-li $x,             # Saves results in a register x
-la $v0, $t0        # Returns maximum subarray
+li $x,                     # Saves results in a register x
+la $v0, $t0                # Returns maximum subarray
 jr   $ra
 
+equal:
+la $v0, $
 ##########################################################
 MaximumCrossingSum:
 #	$a0 contains arr[]
@@ -94,19 +98,19 @@ FindMax2:
 #	$a2 holds the second number.
 #	$v0 contains the maximum between the 2 input numbers.
 
-addi $sp, $sp, -8		#allocate memory
-sw $ra 0($sp)			#store RA from FindMax3
+addi $sp, $sp, -8             #allocate memory
+sw $ra, 0($sp)	              #store RA from FindMax3
 
-beq $a1 $a2 first           # if they are the same number, just use first num
-slt $t0 $a1 $a2             # if $a1 is maximum, $t0 is 0
-beq $t0 $0 first            # check to see if $a1 is maximum
-lw $v0 0($a2)               # $a2 is maximum
+beq $a1, $a2, first           # if they are the same number, just use first num
+slt $t0, $a1, $a2             # if $a1 is maximum, $t0 is 0
+beq $t0, $0, first            # check to see if $a1 is maximum
+lw $v0, 0($a2)                # $a2 is maximum
 
 first:
-lw $v0 0($a1)
+lw $v0, 0($a1)                # load $a1 as maximum
 
-lw $ra, 0($sp)			#load Ta from FindMax3
-jr $ra				#jump to FindMax3
+lw $ra, 0($sp)	              # load ra from FindMax3
+jr $ra                        # jump to FindMax3
 
 FindMax3:
 ##########################################################
