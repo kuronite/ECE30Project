@@ -114,12 +114,22 @@ FindMax3:
 
 addi $sp, $sp, -8	#allocate memory
 sw $ra, 0($sp)
-jal FindMax2	#call  FindMax2 for variables a1 and a2
-move $t1, $v0	#FindMax2 returns v0 with max between a1 and a2
-		#	move $v0 to what will act as the new a1
-		#call FindMax2 for new a1 and a3
-		#FindMax2 will return max of all 3 values.
-		#print the max of all 3 values
 
+add $t1, $t1, $a1	#store arguments to be compared in separe registers for safety
+add $t2, $t2, $a2
+add $t3, $t3, $a3
+
+jal FindMax2		#call  FindMax2 for variables a1 and a2
+			#FindMax2 returns v0 = max between a1 and a2
+
+move $a1, $v0		#move $v0 to what will act as the new a1
+move $a2, $a3
+
+jal FindMax2		#call FindMax2 for new a1 and a3
+			#FindMax2 will return v0 = max of all 3 values.
+
+move $v0, $a0		# a0 stores value that will be printed, in this case the MAX3
+li $v0, 1		#print the max of all 3 values
+syscall
 lw $ra, 0($sp)
 jr $ra
