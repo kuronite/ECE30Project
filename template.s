@@ -52,7 +52,16 @@ MaxSumBoundary:
 #	$a2 contains e
 #	$a3 is the direction (either 0 or 1)
 #	$v0 returns the maximum subarray
-#   Write your code here
+
+# Check what directiond
+beq $a3, $zero, zero
+
+# direction is 1
+
+# directions i 0 
+zero:
+
+
 jr   $ra
 
 ##########################################################
