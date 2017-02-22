@@ -138,7 +138,7 @@ move $a1, $t1		#return the values from temp to arg
 move $a2, $t2
 move $a3, $t3
 
-move $v0, $a0		# a0 stores value that will be printed, in this case the MAX3
+move $a0, $v0		# a0 stores value that will be printed, in this case the MAX3
 li $v0, 1		#print the max of all 3 values
 syscall
 lw $ra, 0($sp)
