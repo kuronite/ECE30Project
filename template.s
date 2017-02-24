@@ -53,22 +53,51 @@ MaxSumBoundary:
 #	$a3 is the direction (either 0 or 1)
 #	$v0 returns the maximum subarray
 
-# Check what directiond
+
+addiu $sp, $sp, -32        # Allocate space in stack frame
+sw $ra, 0($sp)             # $ra stored on stack frame
+sw $fp, 4($sp)             # $fp stored on stack frame
+sw $a0, 8($sp)             # $a0 stored on stack frame
+sw $a1, 12($sp)            # $a0 stored on stack frame
+sw $a2, 16($sp)            # $a0 stored on stack frame
+sw $a3, 20($sp)            # $a0 stored on stack frame
+addiu $fp, $sp, 32         # end callee organizational tasks, setup $fp
+
+# Check to see if s == e
+beq $a1, $a2, equal        # Compares s with e
+
+# Check what directions
 beq $a3, $zero, zero
 
 # direction is 1
-
-li $x,             # Saves results in a register x
-la $v0, $t0        # Returns maximum subarray
-jr   $ra
+lw $ra, 0($sp)             # Restores $ra
+lw $fp, 4($sp)             # Restores $sp
+addiu $sp, $sp, 32         # End callee organizational tasks, pop stack frame
+jr   $ra                   # Return to caller
 
 # directions is 0 
 zero:
 
-li $x,             # Saves results in a register x
-la $v0, $t0        # Returns maximum subarray
-jr   $ra
+lw $v0, 0($t0)             # Returns that value as max
+ 
+lw $ra, 20($sp)            # Restores $ra
+lw $fp, 16($sp)            # Restores $sp
+addiu $sp, $sp, 32         # End callee organizational tasks, pop stack frame
+jr   $ra                   # Return to caller
+ 
+ 
+ 
+equal:
+sll $t0, $a1, 2           # Shift 8 bits to find value of arr
+lw $v0, 0($t0)            # Returns arr[s] as max
 
+lw $ra, 0($sp)            # Restores $ra
+lw $fp, 4($sp)            # Restores $sp
+lw $a0, 8($sp)            # Restores $a0
+lw $a1, 12($sp)           # Restores $a1
+lw $a2, 16($sp)           # Restores $a1
+lw $a3, 20($sp)           # Restores $a3
+jr $ra
 ##########################################################
 MaximumCrossingSum:
 #	$a0 contains arr[]
