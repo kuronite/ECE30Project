@@ -63,17 +63,33 @@ sw $a2, 16($sp)            # $a0 stored on stack frame
 sw $a3, 20($sp)            # $a0 stored on stack frame
 addiu $fp, $sp, 32         # end callee organizational tasks, setup $fp
 
+
 # Check to see if s == e
 beq $a1, $a2, equal        # Compares s with e
+
 
 # Check what directions
 beq $a3, $zero, zero
 
+
 # direction is 1
-lw $ra, 0($sp)             # Restores $ra
-lw $fp, 4($sp)             # Restores $sp
-addiu $sp, $sp, 32         # End callee organizational tasks, pop stack frame
-jr   $ra                   # Return to caller
+lw $a0, 8($sp)
+lw $a1, 12($sp)
+lw $a2, 16($sp)
+addi $a1, $a1, 1
+lw $a3, 20($sp)
+jal MaxSumBoundary
+sw $v0, 24($sp)
+
+lw $a0, 8($sp)
+lw $a1, 12($sp)
+sll $t1, $a1, 2
+add $t0, $a1, $a0
+
+lw $a1, 0($t0)
+add $t1, $a2, 2
+jal FindMax2
+
 
 # directions is 0 
 zero:
@@ -93,7 +109,8 @@ add $t0, $a2, $a0
 lw $a2, 0($t0)
 add $t1, $v0, $a2
 jal FindMax2
- 
+
+
 equal:
 sll $t0, $a1, 2           # Shift 8 bits to find value of arr
 add $t0, $a0, $t0
