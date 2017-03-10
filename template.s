@@ -65,7 +65,7 @@ addiu $fp, $sp, 32         # end callee organizational tasks, setup $fp
 
 
 # Check to see if s == e
-beq $a1, $a2, equal        # Compares s with e
+beq $a1, $a2, equal        
 
 
 # Check what directions
@@ -85,36 +85,37 @@ sw $v0, 24($sp)            # returns maximum subarray
 lw $a0, 8($sp)             # loads arr[]
 lw $a1, 12($sp)            # loads s 
 sll $t1, $a1, 2            # shifts 8 bits to find value of arr
-add $t0, $a1, $a0          # t0 = arr[] + s 
+add $t0, $a1, $a0          # t0 = s + arr[] 
 
 lw $a1, 0($t0)             # loads new s value
-add $t1, $a2, 2            # t1 = e + 2
-jal FindMax2               
+add $t1, $v0, a1           # Updates MaxSubArray
+jal FindMax2               # Calls FindMax2 to find new max
 
 
 # directions is 0 
 zero:
-lw $a0, 8($sp)
-lw $a1, 12($sp)
-lw $a2, 16($sp)
-addi $a2, $a2, -1
-lw $a3, 20($sp)
-jal MaxSumBoudary
-sw $v0, 24($sp)
+lw $a0, 8($sp)            # load arr[]
+lw $a1, 12($sp)           # load s
+lw $a2, 16($sp)           # load e
+addi $a2, $a2, -1         # e = e - 1
+lw $a3, 20($sp)           # load direction
+jal MaxSumBoudary         # loop again
+sw $v0, 24($sp)           # returns a maximum subarray
 
-lw $a0, 8($sp)
-lw $a2, 16($sp)
-sll $t1, $a2, 2
-add $t0, $a2, $a0
+# reload values in case they changed
+lw $a0, 8($sp)            # load arr[]
+lw $a2, 16($sp)           # load e
+sll $t1, $a2, 2           # shift 8 bits to find value of arr
+add $t0, $a2, $a0         # to = e + arr[] 
 
-lw $a2, 0($t0)
-add $t1, $v0, $a2
-jal FindMax2
+lw $a2, 0($t0)            # loads new e value
+add $t1, $v0, $a2         # Updates MaxSubArray
+jal FindMax2              # Calls FindMax2 to find new max
 
 
 equal:
 sll $t0, $a1, 2           # Shift 8 bits to find value of arr
-add $t0, $a0, $t0
+add $t0, $a0, $t0         # t0 = a0 + t0
 lw $v0, 0($t0)            # Returns arr[s] as max
 
 lw $ra, 0($sp)            # Restores $ra
@@ -123,7 +124,7 @@ lw $a0, 8($sp)            # Restores $a0
 lw $a1, 12($sp)           # Restores $a1
 lw $a2, 16($sp)           # Restores $a1
 lw $a3, 20($sp)           # Restores $a3
-jr $ra
+jr $ra                    
 
 ##########################################################
 MaximumCrossingSum:
