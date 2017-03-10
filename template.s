@@ -156,15 +156,17 @@ MaximumSubArraySum:
 #	$a2 contains e
 #   Write your code here
 
-lw $a0 8($sp)
-lw $a1 12($sp)
-lw $a2 16($sp)
+lw $a0, 8($sp)
+lw $a1, 12($sp)
+lw $a2, 16($sp)
 
+beq $a1, $a2, sEquale
 
 # s == e
 sEquale:
-sll $t0, $a1, $a0
-add $t0, $a0, 
+sll $t0, $a1, 2
+add $t0, $a0, $t0
+lw $v0, 0($t0)
 
 jal FindMax3
 
@@ -180,14 +182,14 @@ FindMax2:
 
 #####NEED TO FIX THE PROCEDURAL DUTIES BETWEEN FINDMAX3 AND FINDMAX2 BUT I BELIEVE THE CODE IS MOSTLY RIGHT
 
-beq $a1 $a2 first           # if they are the same number, just use first num
-slt $t0 $a1 $a2             # if $a1 is maximum, $t0 is 0
-beq $t0 $0 first            # check to see if $a1 is maximum
-add $v0 $a2 $0              # returns by storing a2 in v0
+beq $a1, $a2, first           # if they are the same number, just use first num
+slt $t0, $a1, $a2             # if $a1 is maximum, $t0 is 0
+beq $t0, $0, first            # check to see if $a1 is maximum
+add $v0, $a2, $0              # returns by storing a2 in v0
 j end_findmax2              # $a2 is maximum
 
 first:
-add $v0,$a1.$0              # returns by storing a1 in v0
+add $v0, $a1, $0              # returns by storing a1 in v0
 j end_findmax2
 
 end_ findmax2:
