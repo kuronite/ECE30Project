@@ -108,7 +108,7 @@ lw $a2, 16($sp)           # load e
 sll $t1, $a2, 2           # shift 8 bits to find value of arr
 add $t0, $a2, $a0         # to = e + arr[] 
 
-lw $a2, 0($t0)            # loads new e value
+lw $a2, 0($t0)            # gets value of t0
 add $t1, $v0, $a2         # Updates MaxSubArray
 jal FindMax2              # Calls FindMax2 to find new max
 
@@ -134,7 +134,9 @@ MaximumCrossingSum:
 #	$a3 contains e
 #	$v0 returns the maximum sum of arrays that cross the midpoint
 #   Write your code here
-
+                                # load a0 a1 a2 a3 
+				# store v0 into stack
+				# jal FindMax3
 				#a0 contains an array of size x
 				#add array elements a to m
 				#add array aelements m+1 to e
@@ -151,7 +153,17 @@ MaximumSubArraySum:
 #	$a2 contains e
 #   Write your code here
 
+lw $a0 8($sp)
+lw $a1 12($sp)
+lw $a2 16($sp)
 
+
+# s == e
+sEquale:
+sll $t0, $a1, $a0
+add $t0, $a0, 
+
+jal FindMax2
 
 jr $ra
 
@@ -168,13 +180,14 @@ FindMax2:
 beq $a1 $a2 first           # if they are the same number, just use first num
 slt $t0 $a1 $a2             # if $a1 is maximum, $t0 is 0
 beq $t0 $0 first            # check to see if $a1 is maximum
-lw $v0 0($a2)         XXXXXX cant load from number must load from address      # $a2 is maximum
+add $v0 $a2 $0              # returns by storing a2 in v0
+j end_findmax2              # $a2 is maximum
 
 first:
-lw $v0 0($a1) XXXXX cant load from a number must be from mem address
+add $v0,$a1.$0              # returns by storing a1 in v0
 
-
-jr $ra				#jump to FindMax3
+end_ findmax2:
+jr $ra                      # jumps to caller
 
 FindMax3:
 ##########################################################
