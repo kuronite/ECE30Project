@@ -145,6 +145,80 @@ MaximumCrossingSum:
 				#add array aelements m+1 to e
 
 				#v0 = the two sum 
+				MaximumCrossingSum:
+#	$a0 contains arr[]
+#	$a1 contains s
+#	$a2 contains m
+#	$a3 contains e
+#	$v0 returns the maximum sum of arrays that cross the midpoint
+#   Write your code here
+
+addiu $sp $sp -32        # Allocate space in stack frame
+sw $ra 0($sp)             # $ra stored on stack frame
+sw $fp 4($sp)             # $fp stored on stack frame
+sw $a0 8($sp)             # $a0 stored on stack frame
+sw $a1 12($sp)            # $a1 stored on stack frame
+sw $a2 16($sp)            # $a2 stored on stack frame
+sw $a3 20($sp)            # $a3 stored on stack frame
+addiu $fp, $sp, 32         # end callee organizational tasks, setup $fp
+
+
+lw $a0 8($sp)             # load arr[]
+lw $s1 12($sp)            # load s
+lw $s2 16($sp)            # load m
+
+add %t0 $0 $s1
+
+beq $t0 $s2 ADDNXT			#checks if the m index has been met
+lw $t1 							#load from memory a[i]
+							#add a[s+i] + a[s]
+addi $s2, $s2, 4			#increment the s index , s = s + 4
+
+
+				#a0 contains an array of size x
+				#add array elements a to m
+				#add array aelements m+1 to e
+
+				#v0 = the two sum 
+
+jr $ra
+				MaximumCrossingSum:
+#	$a0 contains arr[]
+#	$a1 contains s
+#	$a2 contains m
+#	$a3 contains e
+#	$v0 returns the maximum sum of arrays that cross the midpoint
+#   Write your code here
+
+addiu $sp $sp -32        # Allocate space in stack frame
+sw $ra 0($sp)             # $ra stored on stack frame
+sw $fp 4($sp)             # $fp stored on stack frame
+sw $a0 8($sp)             # $a0 stored on stack frame
+sw $a1 12($sp)            # $a1 stored on stack frame
+sw $a2 16($sp)            # $a2 stored on stack frame
+sw $a3 20($sp)            # $a3 stored on stack frame
+addiu $fp, $sp, 32         # end callee organizational tasks, setup $fp
+
+
+lw $a0 8($sp)             # load arr[]
+lw $s1 12($sp)            # load s
+lw $s2 16($sp)            # load m
+
+add %t0 $0 $s1
+
+beq $t0 $s2 ADDNXT			#checks if the m index has been met
+lw $t1 							#load from memory a[i]
+							#add a[s+i] + a[s]
+addi $s2, $s2, 4			#increment the s index , s = s + 4
+
+
+				#a0 contains an array of size x
+				#add array elements a to m
+				#add array aelements m+1 to e
+
+				#v0 = the two sum 
+
+jr $ra
 
 jr $ra
 
