@@ -58,9 +58,9 @@ addiu $sp, $sp, -32        # Allocate space in stack frame
 sw $ra, 0($sp)             # $ra stored on stack frame
 sw $fp, 4($sp)             # $fp stored on stack frame
 sw $a0, 8($sp)             # $a0 stored on stack frame
-sw $a1, 12($sp)            # $a0 stored on stack frame
-sw $a2, 16($sp)            # $a0 stored on stack frame
-sw $a3, 20($sp)            # $a0 stored on stack frame
+sw $a1, 12($sp)            # $a1 stored on stack frame
+sw $a2, 16($sp)            # $a2 stored on stack frame
+sw $a3, 20($sp)            # $a3 stored on stack frame
 addiu $fp, $sp, 32         # end callee organizational tasks, setup $fp
 
 
@@ -85,11 +85,12 @@ sw $v0, 24($sp)            # returns maximum subarray
 lw $a0, 8($sp)             # loads arr[]
 lw $a1, 12($sp)            # loads s 
 sll $t1, $a1, 2            # shifts 8 bits to find value of arr
-add $t0, $a1, $a0          # t0 = s + arr[] 
+add $t0, $t1, $a0          # t0 = arr[s] + x 
 
-lw $a1, 0($t0)             # loads new s value
-add $t1, $v0, a1           # Updates MaxSubArray
+lw $a1, 0($t0)             # loads arr[s]
+add $t1, $a1, $v0          # Updates MaxSubArray
 jal FindMax2               # Calls FindMax2 to find new max
+j end_MaxSumBoundary
 
 
 # directions is 0 
@@ -111,12 +112,12 @@ add $t0, $a2, $a0         # to = e + arr[]
 lw $a2, 0($t0)            # gets value of t0
 add $t1, $v0, $a2         # Updates MaxSubArray
 jal FindMax2              # Calls FindMax2 to find new max
-
+j end_MaxSumBoundary
 
 equal:
 sll $t0, $a1, 2           # Shift 8 bits to find value of arr
 add $t0, $a0, $t0         # t0 = a0 + t0
-lw $v0, 0($t0)            # Returns arr[s] as max
+lw $v0, 0($t0)            # Returns arr[] as max
 
 lw $ra, 0($sp)            # Restores $ra
 lw $fp, 4($sp)            # Restores $sp
@@ -124,6 +125,8 @@ lw $a0, 8($sp)            # Restores $a0
 lw $a1, 12($sp)           # Restores $a1
 lw $a2, 16($sp)           # Restores $a1
 lw $a3, 20($sp)           # Restores $a3
+
+end_MaxSumBoundary:
 jr $ra                    
 
 ##########################################################
@@ -163,7 +166,7 @@ sEquale:
 sll $t0, $a1, $a0
 add $t0, $a0, 
 
-jal FindMax2
+jal FindMax3
 
 jr $ra
 
@@ -185,6 +188,7 @@ j end_findmax2              # $a2 is maximum
 
 first:
 add $v0,$a1.$0              # returns by storing a1 in v0
+j end_findmax2
 
 end_ findmax2:
 jr $ra                      # jumps to caller
