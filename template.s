@@ -69,26 +69,27 @@ beq $a1, $a2, equal        # Compares s with e
 
 
 # Check what directions
-beq $a3, $zero, zero
+beq $a3, $zero, zero      
 
 
 # direction is 1
-lw $a0, 8($sp)
-lw $a1, 12($sp)
-lw $a2, 16($sp)
-addi $a1, $a1, 1
-lw $a3, 20($sp)
-jal MaxSumBoundary
-sw $v0, 24($sp)
+lw $a0, 8($sp)             # load arr[]
+lw $a1, 12($sp)            # load s
+lw $a2, 16($sp)            # load e
+addi $a1, $a1, 1           # s = s + 1
+lw $a3, 20($sp)            # load direction
+jal MaxSumBoundary         # loop again
+sw $v0, 24($sp)            # returns maximum subarray
 
-lw $a0, 8($sp)
-lw $a1, 12($sp)
-sll $t1, $a1, 2
-add $t0, $a1, $a0
+# reload values in case they changed
+lw $a0, 8($sp)             # loads arr[]
+lw $a1, 12($sp)            # loads s 
+sll $t1, $a1, 2            # shifts 8 bits to find value of arr
+add $t0, $a1, $a0          # t0 = arr[] + s 
 
-lw $a1, 0($t0)
-add $t1, $a2, 2
-jal FindMax2
+lw $a1, 0($t0)             # loads new s value
+add $t1, $a2, 2            # t1 = e + 2
+jal FindMax2               
 
 
 # directions is 0 
