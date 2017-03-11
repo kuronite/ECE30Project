@@ -234,18 +234,17 @@ lw $a0, 8($sp)
 lw $a1, 12($sp)
 lw $a2, 16($sp)
 
+# Jump to sEquale 
 beq $a1, $a2, sEquale
 
 # s == e
 sEquale:
-sll $t0, $a1, 2
-add $t0, $a0, $t0
-lw $v0, 0($t0)
+sll $t0, $a1, 2                    # shifts to address of a1 
+add $t0, $a0, $t0                  # Stores the value to t0
+lw $v0, 0($t0)                     # Returns arr[s]
 
-jal FindMax3
-
+end_MaximumSumArraySum:
 jr $ra
-
 
 
 ##########################################################
@@ -254,13 +253,11 @@ FindMax2:
 #	$a2 holds the second number.
 #	$v0 contains the maximum between the 2 input numbers.
 
-#####NEED TO FIX THE PROCEDURAL DUTIES BETWEEN FINDMAX3 AND FINDMAX2 BUT I BELIEVE THE CODE IS MOSTLY RIGHT
-
 beq $a1, $a2, first           # if they are the same number, just use first num
 slt $t0, $a1, $a2             # if $a1 is maximum, $t0 is 0
 beq $t0, $0, first            # check to see if $a1 is maximum
 add $v0, $a2, $0              # returns by storing a2 in v0
-j end_findmax2              # $a2 is maximum
+j end_findmax2                # $a2 is maximum
 
 first:
 add $v0, $a1, $0              # returns by storing a1 in v0
@@ -269,8 +266,9 @@ j end_findmax2
 end_ findmax2:
 jr $ra                      # jumps to caller
 
-FindMax3:
+
 ##########################################################
+FindMax3:
 #	$a1 holds the first number.
 #	$a2 holds the second number.
 #	$a3 holds the third number.
