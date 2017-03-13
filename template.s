@@ -57,10 +57,10 @@ MaxSumBoundary:
 addiu $sp, $sp, -32        # Allocate space in stack frame
 sw $ra, 0($sp)             # $ra stored on stack frame
 sw $fp, 4($sp)             # $fp stored on stack frame
-sw $a0, 8($sp)             # $a0 stored on stack frame
-sw $a1, 12($sp)            # $a1 stored on stack frame
-sw $a2, 16($sp)            # $a2 stored on stack frame
-sw $a3, 20($sp)            # $a3 stored on stack frame
+sw $a0, 8($sp)             # arr[] stored on stack frame
+sw $a1, 12($sp)            # s stored on stack frame
+sw $a2, 16($sp)            # e stored on stack frame
+sw $a3, 20($sp)            # direction stored on stack frame
 addiu $fp, $sp, 32         # end callee organizational tasks, setup $fp
 
 
@@ -230,12 +230,49 @@ MaximumSubArraySum:
 #	$a2 contains e
 #   Write your code here
 
+addiu $sp, $sp, -32                # Allocate space in stack frame
+sw $ra, 0($sp)                     # $ra stored on stack frame
+sw $fp, 4($sp)                     # $fp stored on stack frame
+sw $a0, 8($sp)                     # arr[] stored on stack frame
+sw $a1, 12($sp)                    # s stored on stack frame
+sw $a2, 16($sp)                    # e stored on stack frame
+sw $a3, 20($sp)                    # m stored on stack frame
+addiu $fp, $sp, 32                 # end callee organizational tasks, setup $fp
+
+# Load passed in params to check if s == e
+lw $a0, 8($sp)                     # load arr[]
+lw $a1, 12($sp)                    # load s
+lw $a2, 16($sp)                    # load e
+
+# Jump to sEquale if s == e
+beq $a1, $a2, sEquale
+
+# Find midpoint of given array, m = (s + e)/2
+addu $a3, $a0, $a1                 # a3 = s + e
+srl $a3, $a3, 1                    # divides by 2
+
+# Load arr[], s, and m 
+lw $a0, 8($sp)
+lw $a1, 12($sp)
+lw $a3, 20($sp)
+jal MaximumSubArraySum
+
+# Load arr[], m+1, e
+lw $a0, 8($sp)                     # load arr[]
+lw $a2, 16($sp)                    # load e
+addi $t1, $a3, 1                   # m + 1
+jal MaximumSubArraySum
+
+# Load arr[], m, e
 lw $a0, 8($sp)
 lw $a1, 12($sp)
 lw $a2, 16($sp)
+lw $a3, 20($sp)
+jal MaxCrossingSum                 # Compute maximum subarray sum
 
-# Jump to sEquale 
-beq $a1, $a2, sEquale
+# Find max sub array
+
+jal Maximum3                       # Returns max value of arrays 
 
 # s == e
 sEquale:
