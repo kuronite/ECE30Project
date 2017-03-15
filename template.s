@@ -150,7 +150,7 @@ addiu $fp, $sp, 32              		# end callee organizational tasks, setup $fp
 
 lw $a1, 12($sp)                 		#s loaded from stack frame
 lw $a2, 16($sp)                 		#m loaded from stack frame
-li $a3, 0 					#load d=0
+li $a3,  0 						#load d=0
 jal MaxSumBoundary				#call MSB
 sw $v0, 24($sp)					#store resulting LH Sum in stack 
 
@@ -191,7 +191,7 @@ lw $a2, 16($sp)                    # load e
 beq $a1, $a2, sEquale
 
 # Find midpoint of given array, m = (s + e)/2
-addu $a3, $a1, $a2              # a3 = s + e
+addu $a3, $a2, $a1              # a3 = s + e
 srl $a3, $a3, 1                 # divides by 2
 sw $a3, 20($sp)					#stored m in stack
 
@@ -200,7 +200,7 @@ lw $a0, 8($sp)					#load arr[]
 lw $a1, 12($sp)					#load s into a1
 lw $a2, 20($sp)					#load m into a2
 jal MaximumSubArraySum			#run recursion
-sw $v0, 24($sp)					#store the MSAS for LH side
+sw $v0 24($sp)					#store the MSAS for LH side
 
 
 # Load arr[], m+1, e
@@ -209,15 +209,15 @@ lw $a1, 20($sp)					#load s = m
 lw $a2, 16($sp)                 #load e
 addi $a1, $a1, 1				# calculate m + 1
 jal MaximumSubArraySum			#run recursion
-sw $v0, 28($sp)					#store results in stack
+sw $v0 28($sp)					#store results in stack
 
 # Load arr[], m, e
 lw $a0, 8($sp)					#load arr[]
 lw $a1, 12($sp)					#load in original s
-lw $a2, 16($sp)					#load in original e
-lw $a3, 20($sp)					#load in original m
+lw $a2, 20($sp)					#load in original m
+lw $a3, 16($sp)					#load in original e
 jal MaxCrossingSum              # Compute maximum crossing sum
-sw $v0, 32($sp)					#crossing sum results stored
+sw $v0 32($sp)					#crossing sum results stored
 
 # Find max sub array
 lw $a0, 8($sp)					#load the 3 sums calculated
@@ -235,11 +235,13 @@ add $t0, $a0, $t0               # Stores the value to t0
 lw $v0, 0($t0)                  # Returns arr[s]
 
 end_MaximumSubArraySum:
-lw $ra, 0($sp)                     # Restores ra so that we can jump to correct spot
-lw $fp, 4($sp)                     # $fp restored on stack frame
-lw $a0, 8($sp)                     # arr[] restored on stack frame
-lw $a1, 12($sp)                    # s restored on stack frame
-lw $a2, 16($sp)                    # e restored on stack frame
+addiu $sp, $sp, 32                # Allocate space in stack frame
+lw $ra, 0($sp)                     # $ra stored on stack frame
+lw $fp, 4($sp)                     # $fp stored on stack frame
+lw $a0, 8($sp)                     # arr[] stored on stack frame
+lw $a1, 12($sp)                    # s stored on stack frame
+lw $a2, 16($sp)                    # e stored on stack frame
+addiu $fp, $sp, -32                 # end callee organizational tasks, setup $fp
 jr $ra
 
 ##########################################################
@@ -252,13 +254,13 @@ beq $a1, $a2, first           # if they are the same number, just use first num
 slt $t0, $a1, $a2             # if $a1 is maximum, $t0 is 0
 beq $t0, $0, first            # check to see if $a1 is maximum
 add $v0, $a2, $0              # returns by storing a2 in v0
-j end_findmax2                # $a2 is maximum
+j end_Findmax2                # $a2 is maximum
 
 first:
 add $v0, $a1, $0              # returns by storing a1 in v0
-j end_findmax2
+j end_Findmax2
 
-end_findmax2:
+end_Findmax2:
 jr $ra                      # jumps to caller
 
 
