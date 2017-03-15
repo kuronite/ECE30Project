@@ -235,13 +235,12 @@ add $t0, $a0, $t0               # Stores the value to t0
 lw $v0, 0($t0)                  # Returns arr[s]
 
 end_MaximumSubArraySum:
-addiu $sp, $sp, 32                # Allocate space in stack frame
 lw $ra, 0($sp)                     # $ra stored on stack frame
 lw $fp, 4($sp)                     # $fp stored on stack frame
 lw $a0, 8($sp)                     # arr[] stored on stack frame
 lw $a1, 12($sp)                    # s stored on stack frame
 lw $a2, 16($sp)                    # e stored on stack frame
-addiu $fp, $sp, -32                 # end callee organizational tasks, setup $fp
+addiu $sp, $sp, 32                 # Restores stack frame
 jr $ra
 
 ##########################################################
