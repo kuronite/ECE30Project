@@ -216,7 +216,7 @@ lw $a0, 8($sp)					#load arr[]
 lw $a1, 12($sp)					#load in original s
 lw $a2, 20($sp)					#load in original m
 lw $a3, 16($sp)					#load in original e
-jal MaxCrossingSum              # Compute maximum crossing sum
+jal MaximumCrossingSum                          # Compute maximum crossing sum
 sw $v0 32($sp)					#crossing sum results stored
 
 # Find max sub array
