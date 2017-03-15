@@ -118,7 +118,6 @@ equal:
 sll $t0, $a1, 2           # Shift 8 bits to find value of arr
 add $t0, $a0, $t0         # t0 = a0 + t0
 lw $v0, 0($t0)            # Returns arr[] as max
-j end_MaxSumBoundary
 
 end_MaxSumBoundary:
 lw $ra, 0($sp)            # Restores $ra
