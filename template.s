@@ -192,7 +192,7 @@ lw $a2, 16($sp)                    # load e
 beq $a1, $a2, sEquale
 
 # Find midpoint of given array, m = (s + e)/2
-addu $a3, $a0, $a1              # a3 = s + e
+addu $a3, $a1, $a2              # a3 = s + e
 srl $a3, $a3, 1                 # divides by 2
 sw $a3 20($sp)					#stored m in stack
 
@@ -201,16 +201,16 @@ lw $a0, 8($sp)					#load arr[]
 lw $a1, 12($sp)					#load s into a1
 lw $a2, 20($sp)					#load m into a2
 jal MaximumSubArraySum			#run recursion
-sw $v0 24($sp)					#store the MSAS for LH side
+sw $v0, 24($sp)					#store the MSAS for LH side
 
 
 # Load arr[], m+1, e
 lw $a0, 8($sp)                  # load arr[]
 lw $a1, 20($sp)					#load s = m
 lw $a2, 16($sp)                 #load e
-addi $a1, $a3, 1				# calculate m + 1
+addi $a1, $a1, 1				# calculate m + 1
 jal MaximumSubArraySum			#run recursion
-sw $v0 28($sp)					#store results in stack
+sw $v0, 28($sp)					#store results in stack
 
 # Load arr[], m, e
 lw $a0, 8($sp)					#load arr[]
@@ -218,7 +218,7 @@ lw $a1, 12($sp)					#load in original s
 lw $a2, 16($sp)					#load in original e
 lw $a3, 20($sp)					#load in original m
 jal MaxCrossingSum              # Compute maximum crossing sum
-sw $v0 32($sp)					#crossing sum results stored
+sw $v0, 32($sp)					#crossing sum results stored
 
 # Find max sub array
 lw $a0, 8($sp)					#load the 3 sums calculated
