@@ -127,7 +127,6 @@ lw $a2, 16($sp)           # Restores $a1
 lw $a3, 20($sp)           # Restores $a3
 
 end_MaxSumBoundary:
-li $ra 0($sp)             # Restores $ra
 jr $ra                    
 
 ##########################################################
@@ -194,7 +193,7 @@ beq $a1, $a2, sEquale
 # Find midpoint of given array, m = (s + e)/2
 addu $a3, $a1, $a2              # a3 = s + e
 srl $a3, $a3, 1                 # divides by 2
-sw $a3 20($sp)					#stored m in stack
+sw $a3, 20($sp)					#stored m in stack
 
 # Load arr[], s, and m 
 lw $a0, 8($sp)					#load arr[]
@@ -236,6 +235,7 @@ add $t0, $a0, $t0               # Stores the value to t0
 lw $v0, 0($t0)                  # Returns arr[s]
 
 end_MaximumSubArraySum:
+lw $ra, 0($sp)                  # Restores ra so that we can jump to correct spot
 jr $ra
 
 ##########################################################
