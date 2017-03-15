@@ -150,7 +150,7 @@ addiu $fp, $sp, 36              		# end callee organizational tasks, setup $fp
 
 lw $a1, 12($sp)                 		#s loaded from stack frame
 lw $a2, 16($sp)                 		#m loaded from stack frame
-li $a3, $a3, 0 					#load d=0
+li $a3, 0 					#load d=0
 jal MaxSumBoundary				#call MSB
 sw $v0, 24($sp)					#store resulting LH Sum in stack 
 
@@ -158,7 +158,7 @@ sw $v0, 24($sp)					#store resulting LH Sum in stack
 lw $a3, 20($sp)                 		#e loaded from stack frame
 lw $a1, 16($sp)         		        #m loaded from stack frame
 addi $a1, $a1, 1				#calculate m+1
-li $a3, $a3, 1					#load d=1 
+li $a3, 1					#load d=1 
 jal MaxSumBoundary				#call MSB
 sw $v0, 28($sp)					#store resulting RH Sum in stack
 
