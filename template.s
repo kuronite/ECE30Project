@@ -119,14 +119,14 @@ sll $t0, $a1, 2           # Shift 8 bits to find value of arr
 add $t0, $a0, $t0         # t0 = a0 + t0
 lw $v0, 0($t0)            # Returns arr[] as max
 
+end_MaxSumBoundary:
 lw $ra, 0($sp)            # Restores $ra
 lw $fp, 4($sp)            # Restores $sp
 lw $a0, 8($sp)            # Restores $a0
 lw $a1, 12($sp)           # Restores $a1
 lw $a2, 16($sp)           # Restores $a1
 lw $a3, 20($sp)           # Restores $a3
-
-end_MaxSumBoundary:
+addiu $sp, $sp, 32        # Restores stack
 jr $ra                    
 
 ##########################################################
