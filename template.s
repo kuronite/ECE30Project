@@ -253,7 +253,7 @@ first:
 add $v0, $a1, $0              # returns by storing a1 in v0
 j end_findmax2
 
-end_ findmax2:
+end_findmax2:
 jr $ra                      # jumps to caller
 
 
