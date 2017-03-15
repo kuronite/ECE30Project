@@ -235,7 +235,11 @@ add $t0, $a0, $t0               # Stores the value to t0
 lw $v0, 0($t0)                  # Returns arr[s]
 
 end_MaximumSubArraySum:
-lw $ra, 0($sp)                  # Restores ra so that we can jump to correct spot
+lw $ra, 0($sp)                     # Restores ra so that we can jump to correct spot
+lw $fp, 4($sp)                     # $fp restored on stack frame
+lw $a0, 8($sp)                     # arr[] restored on stack frame
+lw $a1, 12($sp)                    # s restored on stack frame
+lw $a2, 16($sp)                    # e restored on stack frame
 jr $ra
 
 ##########################################################
