@@ -193,14 +193,17 @@ srl $a3, $a3, 1                    # divides by 2
 # Load arr[], s, and m 
 lw $a0, 8($sp)
 lw $a1, 12($sp)
-lw $a3, 20($sp)
+lw $a2, 20($sp)
 jal MaximumSubArraySum
+sw $v0 24($sp)
+
 
 # Load arr[], m+1, e
 lw $a0, 8($sp)                     # load arr[]
 lw $a2, 16($sp)                    # load e
 addi $t1, $a3, 1                   # m + 1
 jal MaximumSubArraySum
+sw $v1 28($sp)
 
 # Load arr[], m, e
 lw $a0, 8($sp)
@@ -208,10 +211,16 @@ lw $a1, 12($sp)
 lw $a2, 16($sp)
 lw $a3, 20($sp)
 jal MaxCrossingSum                 # Compute maximum subarray sum
+sw $v0 32($sp)
 
 # Find max sub array
+lw $a0, 8($sp)						#load the 3 sums calculated
+lw $a1, 24($sp)						#will be passed to Findmax3
+lw $a2, 28($sp)
+lw $a3, 32($sp)
+jal FindMax3                       # Returns max value of arrays 
 
-jal Maximum3                       # Returns max value of arrays 
+j end_MaximumSubArraySum
 
 # s == e
 sEquale:
@@ -219,9 +228,8 @@ sll $t0, $a1, 2                    # shifts to address of a1
 add $t0, $a0, $t0                  # Stores the value to t0
 lw $v0, 0($t0)                     # Returns arr[s]
 
-end_MaximumSumArraySum:
+end_MaximumSubArraySum:
 jr $ra
-
 
 ##########################################################
 FindMax2:
