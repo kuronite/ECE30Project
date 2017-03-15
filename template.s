@@ -137,88 +137,27 @@ MaximumCrossingSum:
 #	$a3 contains e
 #	$v0 returns the maximum sum of arrays that cross the midpoint
 #   Write your code here
-                                # load a0 a1 a2 a3 
-				# store v0 into stack
-				# jal FindMax3
-				#a0 contains an array of size x
-				#add array elements a to m
-				#add array aelements m+1 to e
+add $t1 $t1 $a1 	#store sme in temps to secure original values
+add $t2 $t2 $a2
+add $t2 $t2 $a3
+li $a3 $a3 0		#load d=0
 
-				#v0 = the two sum 
-				MaximumCrossingSum:
-#	$a0 contains arr[]
-#	$a1 contains s
-#	$a2 contains m
-#	$a3 contains e
-#	$v0 returns the maximum sum of arrays that cross the midpoint
-#   Write your code here
+jal MaxSumBoundary	#call MSB
 
-addiu $sp $sp -32        # Allocate space in stack frame
-sw $ra 0($sp)             # $ra stored on stack frame
-sw $fp 4($sp)             # $fp stored on stack frame
-sw $a0 8($sp)             # $a0 stored on stack frame
-sw $a1 12($sp)            # $a1 stored on stack frame
-sw $a2 16($sp)            # $a2 stored on stack frame
-sw $a3 20($sp)            # $a3 stored on stack frame
-addiu $fp, $sp, 32         # end callee organizational tasks, setup $fp
+move $s1 $v0		#move resulting LH Sum 
 
 
-lw $a0 8($sp)             # load arr[]
-lw $s1 12($sp)            # load s
-lw $s2 16($sp)            # load m
+#re-declare variables for RH Sum
+addi $t4 $t2 4		#calculate a[m+1]		
+add $a1 $t4 $0		#declare s = m+1 (for MSB)
+add $a2 $t3 $0		#declare e = e (for MSB)
+li $a3 $a3 1		#load d=1 
 
-add %t0 $0 $s1
+jal MaxSumBoundary	#call MSB
 
-beq $t0 $s2 ADDNXT			#checks if the m index has been met
-lw $t1 							#load from memory a[i]
-							#add a[s+i] + a[s]
-addi $s2, $s2, 4			#increment the s index , s = s + 4
+move $s2 $v0		#move resulting RH Sum
 
-
-				#a0 contains an array of size x
-				#add array elements a to m
-				#add array aelements m+1 to e
-
-				#v0 = the two sum 
-
-jr $ra
-				MaximumCrossingSum:
-#	$a0 contains arr[]
-#	$a1 contains s
-#	$a2 contains m
-#	$a3 contains e
-#	$v0 returns the maximum sum of arrays that cross the midpoint
-#   Write your code here
-
-addiu $sp $sp -32        # Allocate space in stack frame
-sw $ra 0($sp)             # $ra stored on stack frame
-sw $fp 4($sp)             # $fp stored on stack frame
-sw $a0 8($sp)             # $a0 stored on stack frame
-sw $a1 12($sp)            # $a1 stored on stack frame
-sw $a2 16($sp)            # $a2 stored on stack frame
-sw $a3 20($sp)            # $a3 stored on stack frame
-addiu $fp, $sp, 32         # end callee organizational tasks, setup $fp
-
-
-lw $a0 8($sp)             # load arr[]
-lw $s1 12($sp)            # load s
-lw $s2 16($sp)            # load m
-
-add %t0 $0 $s1
-
-beq $t0 $s2 ADDNXT			#checks if the m index has been met
-lw $t1 							#load from memory a[i]
-							#add a[s+i] + a[s]
-addi $s2, $s2, 4			#increment the s index , s = s + 4
-
-
-				#a0 contains an array of size x
-				#add array elements a to m
-				#add array aelements m+1 to e
-
-				#v0 = the two sum 
-
-jr $ra
+add $v0 $s1 $s2		#Add LH and RH Sums to get Crossing Sum
 
 jr $ra
 
