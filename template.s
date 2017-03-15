@@ -118,6 +118,7 @@ equal:
 sll $t0, $a1, 2           # Shift 8 bits to find value of arr
 add $t0, $a0, $t0         # t0 = a0 + t0
 lw $v0, 0($t0)            # Returns arr[] as max
+j end_MaxSumBoundary
 
 end_MaxSumBoundary:
 lw $ra, 0($sp)            # Restores $ra
@@ -150,7 +151,7 @@ addiu $fp, $sp, 32              		# end callee organizational tasks, setup $fp
 
 lw $a1, 12($sp)                 		#s loaded from stack frame
 lw $a2, 16($sp)                 		#m loaded from stack frame
-li $a3,  0 						#load d=0
+li $a3,  0 					#load d=0
 jal MaxSumBoundary				#call MSB
 sw $v0, 24($sp)					#store resulting LH Sum in stack 
 
