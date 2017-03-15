@@ -127,6 +127,7 @@ lw $a2, 16($sp)           # Restores $a1
 lw $a3, 20($sp)           # Restores $a3
 
 end_MaxSumBoundary:
+li $ra 0($sp)             # Restores $ra
 jr $ra                    
 
 ##########################################################
@@ -138,14 +139,14 @@ MaximumCrossingSum:
 #	$v0 returns the maximum sum of arrays that cross the midpoint
 #   Write your code here
 
-addiu $sp, $sp, -36            			# Allocate space in stack frame
+addiu $sp, $sp, -32            			# Allocate space in stack frame
 sw $ra, 0($sp)                  		# $ra stored on stack frame
 sw $fp, 4($sp)                  		# $fp stored on stack frame
 sw $a0, 8($sp)                  		# arr[] stored on stack frame
 sw $a1, 12($sp)                 		# s stored on stack frame
 sw $a2, 16($sp)                 		# m stored on stack frame
 sw $a3, 20($sp)					# e store in stack
-addiu $fp, $sp, 36              		# end callee organizational tasks, setup $fp
+addiu $fp, $sp, 32              		# end callee organizational tasks, setup $fp
 
 
 lw $a1, 12($sp)                 		#s loaded from stack frame
@@ -174,13 +175,13 @@ MaximumSubArraySum:
 #	$a2 contains e
 #   Write your code here
 
-addiu $sp, $sp, -36                # Allocate space in stack frame
+addiu $sp, $sp, -32                # Allocate space in stack frame
 sw $ra, 0($sp)                     # $ra stored on stack frame
 sw $fp, 4($sp)                     # $fp stored on stack frame
 sw $a0, 8($sp)                     # arr[] stored on stack frame
 sw $a1, 12($sp)                    # s stored on stack frame
 sw $a2, 16($sp)                    # e stored on stack frame
-addiu $fp, $sp, 36                 # end callee organizational tasks, setup $fp
+addiu $fp, $sp, 32                 # end callee organizational tasks, setup $fp
 
 # Load passed in params to check if s == e
 lw $a0, 8($sp)                     # load arr[]
