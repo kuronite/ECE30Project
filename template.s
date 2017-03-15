@@ -169,14 +169,13 @@ MaximumSubArraySum:
 #	$a2 contains e
 #   Write your code here
 
-addiu $sp, $sp, -32                # Allocate space in stack frame
+addiu $sp, $sp, -36                # Allocate space in stack frame
 sw $ra, 0($sp)                     # $ra stored on stack frame
 sw $fp, 4($sp)                     # $fp stored on stack frame
 sw $a0, 8($sp)                     # arr[] stored on stack frame
 sw $a1, 12($sp)                    # s stored on stack frame
 sw $a2, 16($sp)                    # e stored on stack frame
-sw $a3, 20($sp)                    # m stored on stack frame
-addiu $fp, $sp, 32                 # end callee organizational tasks, setup $fp
+addiu $fp, $sp, 36                 # end callee organizational tasks, setup $fp
 
 # Load passed in params to check if s == e
 lw $a0, 8($sp)                     # load arr[]
@@ -187,46 +186,48 @@ lw $a2, 16($sp)                    # load e
 beq $a1, $a2, sEquale
 
 # Find midpoint of given array, m = (s + e)/2
-addu $a3, $a0, $a1                 # a3 = s + e
-srl $a3, $a3, 1                    # divides by 2
+addu $a3, $a0, $a1              # a3 = s + e
+srl $a3, $a3, 1                 # divides by 2
+sw $a3 20($sp)					#stored m in stack
 
 # Load arr[], s, and m 
-lw $a0, 8($sp)
-lw $a1, 12($sp)
-lw $a2, 20($sp)
-jal MaximumSubArraySum
-sw $v0 24($sp)
+lw $a0, 8($sp)					#load arr[]
+lw $a1, 12($sp)					#load s into a1
+lw $a2, 20($sp)					#load m into a2
+jal MaximumSubArraySum			#run recursion
+sw $v0 24($sp)					#store the MSAS for LH side
 
 
 # Load arr[], m+1, e
-lw $a0, 8($sp)                     # load arr[]
-lw $a2, 16($sp)                    # load e
-addi $t1, $a3, 1                   # m + 1
-jal MaximumSubArraySum
-sw $v1 28($sp)
+lw $a0, 8($sp)                  # load arr[]
+lw $a1, 20($sp)					#load s = m
+lw $a2, 16($sp)                 #load e
+addi $a1, $a3, 1				# calculate m + 1
+jal MaximumSubArraySum			#run recursion
+sw $v0 28($sp)					#store results in stack
 
 # Load arr[], m, e
-lw $a0, 8($sp)
-lw $a1, 12($sp)
-lw $a2, 16($sp)
-lw $a3, 20($sp)
-jal MaxCrossingSum                 # Compute maximum subarray sum
-sw $v0 32($sp)
+lw $a0, 8($sp)					#load arr[]
+lw $a1, 12($sp)					#load in original s
+lw $a2, 16($sp)					#load in original e
+lw $a3, 20($sp)					#load in original m
+jal MaxCrossingSum              # Compute maximum crossing sum
+sw $v0 32($sp)					#crossing sum results stored
 
 # Find max sub array
-lw $a0, 8($sp)						#load the 3 sums calculated
-lw $a1, 24($sp)						#will be passed to Findmax3
+lw $a0, 8($sp)					#load the 3 sums calculated
+lw $a1, 24($sp)					#will be a1,a2,a3 passed to Findmax3
 lw $a2, 28($sp)
 lw $a3, 32($sp)
-jal FindMax3                       # Returns max value of arrays 
+jal FindMax3                    # Returns max value of arrays 
 
-j end_MaximumSubArraySum
+j end_MaximumSubArraySum		#ends the function
 
 # s == e
 sEquale:
-sll $t0, $a1, 2                    # shifts to address of a1 
-add $t0, $a0, $t0                  # Stores the value to t0
-lw $v0, 0($t0)                     # Returns arr[s]
+sll $t0, $a1, 2                 # shifts to address of a1 
+add $t0, $a0, $t0               # Stores the value to t0
+lw $v0, 0($t0)                  # Returns arr[s]
 
 end_MaximumSubArraySum:
 jr $ra
