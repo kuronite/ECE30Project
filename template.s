@@ -137,30 +137,35 @@ MaximumCrossingSum:
 #	$a3 contains e
 #	$v0 returns the maximum sum of arrays that cross the midpoint
 #   Write your code here
-add $t1 $t1 $a1 	#store sme in temps to secure original values
-add $t2 $t2 $a2
-add $t2 $t2 $a3
-li $a3 $a3 0		#load d=0
 
-jal MaxSumBoundary	#call MSB
+addiu $sp, $sp, -36            			# Allocate space in stack frame
+sw $ra, 0($sp)                  		# $ra stored on stack frame
+sw $fp, 4($sp)                  		# $fp stored on stack frame
+sw $a0, 8($sp)                  		# arr[] stored on stack frame
+sw $a1, 12($sp)                 		# s stored on stack frame
+sw $a2, 16($sp)                 		# m stored on stack frame
+sw $a3, 20($sp)					# e store in stack
+addiu $fp, $sp, 36              		# end callee organizational tasks, setup $fp
 
-move $s1 $v0		#move resulting LH Sum 
+
+lw $a1, 12($sp)                 		#s loaded from stack frame
+lw $a2, 16($sp)                 		#m loaded from stack frame
+li $a3, $a3, 0 					#load d=0
+jal MaxSumBoundary				#call MSB
+sw $v0, 24($sp)					#store resulting LH Sum in stack 
 
 
-#re-declare variables for RH Sum
-addi $t4 $t2 4		#calculate a[m+1]		
-add $a1 $t4 $0		#declare s = m+1 (for MSB)
-add $a2 $t3 $0		#declare e = e (for MSB)
-li $a3 $a3 1		#load d=1 
+lw $a3, 20($sp)                 		#e loaded from stack frame
+lw $a1, 16($sp)         		        #m loaded from stack frame
+addi $a1, $a1, 1				#calculate m+1
+li $a3, $a3, 1					#load d=1 
+jal MaxSumBoundary				#call MSB
+sw $v0, 28($sp)					#store resulting RH Sum in stack
 
-jal MaxSumBoundary	#call MSB
-
-move $s2 $v0		#move resulting RH Sum
-
-add $v0 $s1 $s2		#Add LH and RH Sums to get Crossing Sum
-
+lw $t1, 24($sp)					#load the LH Sum
+lw $t2, 28($sp)					#load the RH Sum
+add $v0, $t1, $t2				#Add LH and RH Sums to get Crossing Sum
 jr $ra
-
 
 ##########################################################
 MaximumSubArraySum:
