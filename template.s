@@ -1,9 +1,9 @@
 # Project ECE 30 Winter 2017
 # Maximum Subarray Sum
 # Student 1 : PID A10902921
-# Magana, Cesar 
+# Magana, Cesar
 # Student 2 : PID A12127824
-# Tran, Wilson 
+# Tran, Wilson
 
 .data ## Data declaration section
 ## String to be printed:
@@ -16,7 +16,7 @@ size: .word 7
 
 main: ## Start of code section
 li $a1, 0
-la $a2, size 
+la $a2, size
 lw $a2, 0($a2)
 la $a0, array1
 jal MaximumSubArraySum # MaxSubArraySum(arr,0, size-1);
@@ -29,16 +29,16 @@ syscall
 printsum: # Function to print the contents of the array
 # $a0 = value to be printed
 move $t0, $a0
-	
+
 # print newline character
 la $a0, string_newline
 li $v0, 4
 syscall
-    
+
 la $a0,  string_MaxSubArraySum
 li $v0, 4
 syscall
-	
+
 # print the integer at the address $a0
 li $v0, 1
 move $a0,$t0
@@ -48,7 +48,7 @@ jr $ra  # Return back
 ##########################################################
 MaxSumBoundary:
 #	$a0 contains address to arr[].
-#	$a1 contains s 
+#	$a1 contains s
 #	$a2 contains e
 #	$a3 is the direction (either 0 or 1)
 #	$v0 returns the maximum subarray
@@ -65,11 +65,11 @@ addiu $fp, $sp, 32         # end callee organizational tasks, setup $fp
 
 
 # Check to see if s == e
-beq $a1, $a2, equal        
+beq $a1, $a2, equal
 
 
 # Check what directions
-beq $a3, $zero, zero      
+beq $a3, $zero, zero
 
 
 # direction is 1
@@ -83,9 +83,9 @@ sw $v0, 24($sp)            # returns maximum subarray
 
 # reload values in case they changed
 lw $a0, 8($sp)             # loads arr[]
-lw $a1, 12($sp)            # loads s 
+lw $a1, 12($sp)            # loads s
 sll $t1, $a1, 2            # shifts 8 bits to find value of arr
-add $t0, $t1, $a0          # t0 = arr[s] + x 
+add $t0, $t1, $a0          # t0 = arr[s] + x
 
 lw $a1, 0($t0)             # loads arr[s]
 add $t1, $a1, $v0          # Updates MaxSubArray
@@ -93,7 +93,7 @@ jal FindMax2               # Calls FindMax2 to find new max
 j end_MaxSumBoundary
 
 
-# directions is 0 
+# directions is 0
 zero:
 lw $a0, 8($sp)            # load arr[]
 lw $a1, 12($sp)           # load s
@@ -107,7 +107,7 @@ sw $v0, 24($sp)           # returns a maximum subarray
 lw $a0, 8($sp)            # load arr[]
 lw $a2, 16($sp)           # load e
 sll $t1, $a2, 2           # shift 8 bits to find value of arr
-add $t0, $a2, $a0         # to = e + arr[] 
+add $t0, $a2, $a0         # to = e + arr[]
 
 lw $a2, 0($t0)            # gets value of t0
 add $t1, $v0, $a2         # Updates MaxSubArray
@@ -127,7 +127,7 @@ lw $a1, 12($sp)           # Restores $a1
 lw $a2, 16($sp)           # Restores $a1
 lw $a3, 20($sp)           # Restores $a3
 addiu $sp, $sp, 32        # Restores stack
-jr $ra                    
+jr $ra
 
 ##########################################################
 MaximumCrossingSum:
@@ -152,13 +152,13 @@ lw $a1, 12($sp)                 		#s loaded from stack frame
 lw $a2, 16($sp)                 		#m loaded from stack frame
 li $a3,  0 						#load d=0
 jal MaxSumBoundary				#call MSB
-sw $v0, 24($sp)					#store resulting LH Sum in stack 
+sw $v0, 24($sp)					#store resulting LH Sum in stack
 
 
 lw $a1, 16($sp)         		        #m loaded from stack frame
 lw $a2, 20($sp)                 		#e loaded from stack frame
 addi $a1, $a1, 1				#calculate m+1
-li $a3, 1						#load d=1 
+li $a3, 1						#load d=1
 jal MaxSumBoundary				#call MSB
 sw $v0, 28($sp)					#store resulting RH Sum in stack
 
@@ -199,7 +199,7 @@ addu $a3, $a2, $a1              # a3 = s + e
 srl $a3, $a3, 1                 # divides by 2
 sw $a3, 20($sp)					#stored m in stack
 
-# Load arr[], s, and m 
+# Load arr[], s, and m
 lw $a0, 8($sp)					#load arr[]
 lw $a1, 12($sp)					#load s into a1
 lw $a2, 20($sp)					#load m into a2
@@ -228,13 +228,13 @@ lw $a0, 8($sp)					#load the 3 sums calculated
 lw $a1, 24($sp)					#will be a1,a2,a3 passed to Findmax3
 lw $a2, 28($sp)
 lw $a3, 32($sp)
-jal FindMax3                    # Returns max value of arrays 
+jal FindMax3                    # Returns max value of arrays
 
 j end_MaximumSubArraySum		#ends the function
 
 # s == e
 sEquale:
-sll $t0, $a1, 2                 # shifts to address of a1 
+sll $t0, $a1, 2                 # shifts to address of a1
 add $t0, $a0, $t0               # Stores the value to t0
 lw $v0, 0($t0)                  # Returns arr[s]
 
@@ -273,14 +273,11 @@ FindMax3:
 #	$a2 holds the second number.
 #	$a3 holds the third number.
 #	$v0 contains the maximum among the 3 numbers
-#   Write your code here 
-
-#####NEED TO FIX THE PROCEDURAL DUTIES BETWEEN FINDMAX3 AND FINDMAX2 BUT I BELIEVE THE CODE IS MOSTLY RIGHT
+#   Write your code here
 
 addiu $sp, $sp, -32                # Allocate space in stack frame
 sw $ra, 0($sp)                     # $ra stored on stack frame
 sw $fp, 4($sp)                     # $fp stored on stack frame
-sw $a0, 8($sp)                     # arr[] stored on stack frame
 sw $a1, 12($sp)                    # 1st number stored
 sw $a2, 16($sp)                    # 2nd number stored
 sw $a3, 20($sp)						#3rd number stored
@@ -288,21 +285,20 @@ addiu $fp, $sp, 32                 # end callee organizational tasks, setup $fp
 
 
 
-lw $a0, 8($sp)                     #arr[] stored on stack frame
-lw $a1, 12($sp)                    #load numbers 1-2 
-lw $a2, 16($sp) 
+lw $a1, 12($sp)                    #load numbers 1-2
+lw $a2, 16($sp)
 jal FindMax2						#call FindMax2 for 1st and 2nd number
 sw $v0, 24($sp)						#FindMax2 returns v0 = max between a1 and a2
 
 lw $a1, 24($sp)						#loads a1 = v0
-lw $a2, 20($sp)						#loads 3rd number into a2	
+lw $a2, 20($sp)						#loads 3rd number into a2
 jal FindMax2						#call FindMax2 for a1 and a3 comparison
 									#FindMax2 will return v0 = max of all 3 values.
 
-lw $a1, 12($sp)                    	#load numbers 1-3 
-lw $a2, 16($sp) 
+lw $a1, 12($sp)                    	#load numbers 1-3
+lw $a2, 16($sp)
 lw $a3, 20($sp
 lw $ra, 0($sp)						#loads caller address and jumps to it
-addio $sp, $sp, 32
+addiu $sp, $sp, 32
 
 jr $ra
