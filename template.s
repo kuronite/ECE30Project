@@ -274,33 +274,31 @@ FindMax3:
 #	$a3 holds the third number.
 #	$v0 contains the maximum among the 3 numbers
 #   Write your code here
-addiu $sp, $sp, -32                	# Allocate space in stack frame
-sw $ra, 0($sp)                     	# $ra stored on stack frame
-sw $fp, 4($sp)                     	# $fp stored on stack frame
-sw $a0, 8($sp)                     	# arr[] stored on stack frame
-sw $a1, 12($sp)                    	# 1st number stored
-sw $a2, 16($sp)                    	# 2nd number stored
-sw $a3, 20($sp)				#3rd number stored
-addiu $fp, $sp, 32                 	# end callee organizational tasks, setup $fp
+
+addiu $sp, $sp, -32                # Allocate space in stack frame
+sw $ra, 0($sp)                     # $ra stored on stack frame
+sw $fp, 4($sp)                     # $fp stored on stack frame
+sw $a1, 12($sp)                    # 1st number stored
+sw $a2, 16($sp)                    # 2nd number stored
+sw $a3, 20($sp)						#3rd number stored
+addiu $fp, $sp, 32                 # end callee organizational tasks, setup $fp
 
 
 
-lw $a0, 8($sp)                     	#arr[] stored on stack frame
-lw $a1, 12($sp)                    	#load numbers 1-2 
-lw $a2, 16($sp) 
-jal FindMax2				#call FindMax2 for 1st and 2nd number
-sw $v0, 24($sp)				#FindMax2 returns v0 = max between a1 and a2
+lw $a1, 12($sp)                    #load numbers 1-2
+lw $a2, 16($sp)
+jal FindMax2						#call FindMax2 for 1st and 2nd number
+sw $v0, 24($sp)						#FindMax2 returns v0 = max between a1 and a2
 
+lw $a1, 24($sp)						#loads a1 = v0
+lw $a2, 20($sp)						#loads 3rd number into a2
+jal FindMax2						#call FindMax2 for a1 and a3 comparison
+									#FindMax2 will return v0 = max of all 3 values.
 
-lw $a1, 24($sp)				#loads a1 = v0
-lw $a2, 20($sp)				#loads 3rd number into a2	
-jal FindMax2				#call FindMax2 for a1 and a3 comparison
-					#FindMax2 will return v0 = max of all 3 values.
+lw $a1, 12($sp)                    	#load numbers 1-3
+lw $a2, 16($sp)
+lw $a3, 20($sp)
+lw $ra, 0($sp)						#loads caller address and jumps to it
+addiu $sp, $sp, 32
 
-lw $a1, 12($sp)                    	#load back 1st number 
-lw $a2, 16($sp) 			#load back 2nd number
-lw $a3, 20($sp)				#load back 3rd number
-lw $ra, 0($sp)				#loads caller address
-addio $sp, $sp, 32			#pop stack
-
-jr $ra								#jumps to caller
+jr $ra
