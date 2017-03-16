@@ -100,7 +100,7 @@ lw $a1, 12($sp)           # load s
 lw $a2, 16($sp)           # load e
 addi $a2, $a2, -1         # e = e - 1
 lw $a3, 20($sp)           # load direction
-jal MaxSumBoudary         # loop again
+jal MaxSumBoundary         # loop again
 sw $v0, 24($sp)           # returns a maximum subarray
 
 # reload values in case they changed
