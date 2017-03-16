@@ -167,7 +167,7 @@ lw $ra, 0($sp)                     # $ra stored on stack frame
 lw $fp, 4($sp)                     # $fp stored on stack frame
 lw $v0 24($sp)					#load the LH Sum
 lw $v1, 28($sp)					#load the RH Sum
-add $v0, $t1, $t2				#Add LH and RH Sums to get Crossing Sum
+add $v0, $v0, $v1				#Add LH and RH Sums to get Crossing Sum
 addiu $sp, $sp, 32                 # Restores stack frame
 jr $ra
 
