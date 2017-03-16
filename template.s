@@ -160,13 +160,13 @@ lw $a2, 20($sp)                 		#e loaded from stack frame
 addi $a1, $a1, 1				#calculate m+1
 li $a3, 1						#load d=1 
 jal MaxSumBoundary				#call MSB
-sw $v0, 28($sp)					#store resulting RH Sum in stack
+sw $v1, 28($sp)					#store resulting RH Sum in stack
 
 # Restoring values
 lw $ra, 0($sp)                     # $ra stored on stack frame
 lw $fp, 4($sp)                     # $fp stored on stack frame
-lw $t1, 24($sp)					#load the LH Sum
-lw $t2, 28($sp)					#load the RH Sum
+lw $v0 24($sp)					#load the LH Sum
+lw $v1, 28($sp)					#load the RH Sum
 add $v0, $t1, $t2				#Add LH and RH Sums to get Crossing Sum
 addiu $sp, $sp, 32                 # Restores stack frame
 jr $ra
