@@ -275,30 +275,31 @@ FindMax3:
 #	$v0 contains the maximum among the 3 numbers
 #   Write your code here
 
-addiu $sp, $sp, -32                # Allocate space in stack frame
-sw $ra, 0($sp)                     # $ra stored on stack frame
-sw $fp, 4($sp)                     # $fp stored on stack frame
-sw $a1, 12($sp)                    # 1st number stored
-sw $a2, 16($sp)                    # 2nd number stored
-sw $a3, 20($sp)						#3rd number stored
-addiu $fp, $sp, 32                 # end callee organizational tasks, setup $fp
+
+addiu $sp, $sp, -8	#allocate memory
+sw $ra, 0($sp)		#store RA from caller that called  FindMax3
+sw $fp, 4($sp)
+addiu $fp, $sp, 8
+
+add $t1, $t1, $a1	#store arguments to be compared in separe registers for safety
+add $t2, $t2, $a2
+add $t3, $t3, $a3
+
+jal FindMax2		#call  FindMax2 for variables a1 and a2
+			#FindMax2 returns v0 = max between a1 and a2
+
+move $a1, $v0		#move $v0 to what will act as the new a1
+move $a2, $a3
+
+jal FindMax2		#call FindMax2 for new a1 and a3
+			#FindMax2 will return v0 = max of all 3 values.
+
+move $a1, $t1		#return the values from temp to arg
+move $a2, $t2
+move $a3, $t3
 
 
-
-lw $a1, 12($sp)                    #load numbers 1-2
-lw $a2, 16($sp)
-jal FindMax2						#call FindMax2 for 1st and 2nd number
-sw $v0, 24($sp)						#FindMax2 returns v0 = max between a1 and a2
-
-lw $a1, 24($sp)						#loads a1 = v0
-lw $a2, 20($sp)						#loads 3rd number into a2
-jal FindMax2						#call FindMax2 for a1 and a3 comparison
-									#FindMax2 will return v0 = max of all 3 values.
-
-lw $a1, 12($sp)                    	#load numbers 1-3
-lw $a2, 16($sp)
-lw $a3, 20($sp)
-lw $ra, 0($sp)						#loads caller address and jumps to it
-addiu $sp, $sp, 32
-
+lw $ra, 0($sp)		#loads caller address and jumps to it
+addiu $sp, $sp, 8
 jr $ra
+
