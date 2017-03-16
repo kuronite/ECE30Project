@@ -138,42 +138,42 @@ MaximumCrossingSum:
 #	$v0 returns the maximum sum of arrays that cross the midpoint
 #   Write your code here
 
-addiu $sp, $sp, -32            			# Allocate space in stack frame
-sw $ra, 0($sp)                  		# $ra stored on stack frame
-sw $fp, 4($sp)                  		# $fp stored on stack frame
-sw $a0, 8($sp)                  		# arr[] stored on stack frame
-sw $a1, 12($sp)                 		# s stored on stack frame
-sw $a2, 16($sp)                 		# m stored on stack frame
-sw $a3, 20($sp)							# e store in stack
-addiu $fp, $sp, 32              		# end callee organizational tasks, setup $fp
+addiu $sp, $sp, -32            		    # Allocate space in stack frame
+sw $ra, 0($sp)                  	    # $ra stored on stack frame
+sw $fp, 4($sp)                  	    # $fp stored on stack frame
+sw $a0, 8($sp)                  	    # arr[] stored on stack frame
+sw $a1, 12($sp)                 	    # s stored on stack frame
+sw $a2, 16($sp)                 	    # m stored on stack frame
+sw $a3, 20($sp)				    # e store in stack
+addiu $fp, $sp, 32              	    # end callee organizational tasks, setup $fp
 
-lw $a0, 8($sp)							#loads arr[]
-lw $a1, 12($sp)                 		#s loaded from stack frame
-lw $a2, 16($sp)                 		#m loaded from stack frame
-li $a3,  0 								#load d=0
-jal MaxSumBoundary						#call MSB
-sw $v0, 24($sp)							#store resulting LH Sum in stack
+lw $a0, 8($sp)				    #loads arr[]
+lw $a1, 12($sp)                 	    #s loaded from stack frame
+lw $a2, 16($sp)                 	    #m loaded from stack frame
+li $a3,  0 				    #load d=0
+jal MaxSumBoundary			    #call MSB
+sw $v0, 24($sp)				    #store resulting LH Sum in stack
 
 
-lw $a1, 16($sp)         		        #m loaded from stack frame
-lw $a2, 20($sp)                 		#e loaded from stack frame
-addi $a1, $a1, 1						#calculate m+1
-li $a3, 1								#load d=1
-jal MaxSumBoundary						#call MSB
-sw $v0, 28($sp)							#store resulting RH Sum in stack
+lw $a1, 16($sp)         		    #m loaded from stack frame
+lw $a2, 20($sp)                 	    #e loaded from stack frame
+addi $a1, $a1, 1			    #calculate m+1
+li $a3, 1				    #load d=1
+jal MaxSumBoundary			    #call MSB
+sw $v0, 28($sp)				    #store resulting RH Sum in stack
 
-lw $t1, 24($sp)							#load the LH Sum
-lw $t2, 28($sp)							#load the RH Sum
-add $v0, $t1, $t2						#Add LH and RH Sums to get Crossing Sum
+lw $t1, 24($sp)	                            #load the LH Sum
+lw $t2, 28($sp)				    #load the RH Sum
+add $v0, $t1, $t2                           #Add LH and RH Sums to get Crossing Sum
 
 
 # Restoring values
 lw $ra, 0($sp)                 		    # $ra stored on stack frame
 lw $fp, 4($sp)                 		    # $fp stored on stack frame
-lw $a0, 8($sp)                  		# arr[] stored on stack frame
-lw $a1, 12($sp)                 		# loads s stored on stack frame
-lw $a2, 16($sp)                 		# loads m stored on stack frame
-lw $a3, 20($sp)							# loads e store in stack
+lw $a0, 8($sp)                  	    # arr[] stored on stack frame
+lw $a1, 12($sp)                 	    # loads s stored on stack frame
+lw $a2, 16($sp)                 	    # loads m stored on stack frame
+lw $a3, 20($sp)			            # loads e store in stack
 addiu $sp, $sp, 32            		    # Restores stack frame
 jr $ra
 
@@ -203,40 +203,40 @@ beq $a1, $a2, sEquale
 # Find midpoint of given array, m = (s + e)/2
 addu $a3, $a2, $a1              # a3 = s + e
 srl $a3, $a3, 1                 # divides by 2
-sw $a3, 20($sp)					#stored m in stack
+sw $a3, 20($sp)			#stored m in stack
 
 # Load arr[], s, and m
-lw $a0, 8($sp)					#load arr[]
-lw $a1, 12($sp)					#load s into a1
-lw $a2, 20($sp)					#load m into a2
-jal MaximumSubArraySum			#run recursion
-sw $v0 24($sp)					#store the MSAS for LH side
+lw $a0, 8($sp)			#load arr[]
+lw $a1, 12($sp)			#load s into a1
+lw $a2, 20($sp)			#load m into a2
+jal MaximumSubArraySum		#run recursion
+sw $v0 24($sp)			#store the MSAS for LH side
 
 
 # Load arr[], m+1, e
 lw $a0, 8($sp)                  # load arr[]
-lw $a1, 20($sp)					#load s = m
+lw $a1, 20($sp)			#load s = m
 lw $a2, 16($sp)                 #load e
-addi $a1, $a1, 1				# calculate m + 1
-jal MaximumSubArraySum			#run recursion
-sw $v0 28($sp)					#store results in stack
+addi $a1, $a1, 1		# calculate m + 1
+jal MaximumSubArraySum		#run recursion
+sw $v0 28($sp)			#store results in stack
 
 # Load arr[], m, e
-lw $a0, 8($sp)					#load arr[]
-lw $a1, 12($sp)					#load in original s
-lw $a2, 20($sp)					#load in original m
-lw $a3, 16($sp)					#load in original e
-jal MaximumCrossingSum                          # Compute maximum crossing sum
-sw $v0 32($sp)					#crossing sum results stored
+lw $a0, 8($sp)			#load arr[]
+lw $a1, 12($sp)			#load in original s
+lw $a2, 20($sp)			#load in original m
+lw $a3, 16($sp)			#load in original e
+jal MaximumCrossingSum          # Compute maximum crossing sum
+sw $v0 32($sp)			#crossing sum results stored
 
 # Find max sub array
-lw $a0, 8($sp)					#load the 3 sums calculated
-lw $a1, 24($sp)					#will be a1,a2,a3 passed to Findmax3
-lw $a2, 28($sp)
-lw $a3, 32($sp)
+lw $a0, 8($sp)			# load the 3 sums calculated
+lw $a1, 24($sp)			# load first sum
+lw $a2, 28($sp)                 # second sum
+lw $a3, 32($sp)                 # third sum
 jal FindMax3                    # Returns max value of arrays
 
-j end_MaximumSubArraySum		#ends the function
+j end_MaximumSubArraySum	#ends the function
 
 # s == e
 sEquale:
@@ -245,12 +245,12 @@ add $t0, $a0, $t0               # Stores the value to t0
 lw $v0, 0($t0)                  # Returns arr[s]
 
 end_MaximumSubArraySum:
-lw $ra, 0($sp)                     # $ra stored on stack frame
-lw $fp, 4($sp)                     # $fp stored on stack frame
-lw $a0, 8($sp)                     # arr[] stored on stack frame
-lw $a1, 12($sp)                    # s stored on stack frame
-lw $a2, 16($sp)                    # e stored on stack frame
-addiu $sp, $sp, 32                 # Restores stack frame
+lw $ra, 0($sp)                  # $ra stored on stack frame
+lw $fp, 4($sp)                  # $fp stored on stack frame
+lw $a0, 8($sp)                  # arr[] stored on stack frame
+lw $a1, 12($sp)                 # s stored on stack frame
+lw $a2, 16($sp)                 # e stored on stack frame
+addiu $sp, $sp, 32              # Restores stack frame
 jr $ra
 
 ##########################################################
@@ -259,14 +259,14 @@ FindMax2:
 #	$a2 holds the second number.
 #	$v0 contains the maximum between the 2 input numbers.
 
-beq $a1, $a2, first           # if they are the same number, just use first num
-slt $t0, $a1, $a2             # if $a1 is maximum, $t0 is 0
-beq $t0, $0, first            # check to see if $a1 is maximum
-add $v0, $a2, $0              # returns by storing a2 in v0
-j end_Findmax2                # $a2 is maximum
+beq $a1, $a2, first         # if they are the same number, just use first num
+slt $t0, $a1, $a2           # if $a1 is maximum, $t0 is 0
+beq $t0, $0, first          # check to see if $a1 is maximum
+add $v0, $a2, $0            # returns by storing a2 in v0
+j end_Findmax2              # $a2 is maximum
 
 first:
-add $v0, $a1, $0              # returns by storing a1 in v0
+add $v0, $a1, $0            # returns by storing a1 in v0
 j end_Findmax2
 
 end_Findmax2:
@@ -284,13 +284,13 @@ FindMax3:
 
 addiu $sp, $sp, -8	#allocate memory
 sw $ra, 0($sp)		#store RA from caller that called  FindMax3
-sw $fp, 4($sp)
-addiu $fp, $sp, 8
+sw $fp, 4($sp)          #store frame pointer 
+addiu $fp, $sp, 8       #end callee's organizational tasks
 
-add $t1, $t1, $a1	#store arguments to be compared in separe registers for safety
-add $t2, $t2, $a2
-add $t3, $t3, $a3
-
+add $t1, $t1, $a1	#store a1 in t1 for future use
+add $t2, $t2, $a2       #store a2 in t2 for future use
+add $t3, $t3, $a3       #store a3 in t3 for future use
+ 
 jal FindMax2		#call  FindMax2 for variables a1 and a2
 			#FindMax2 returns v0 = max between a1 and a2
 
@@ -300,12 +300,13 @@ move $a2, $a3
 jal FindMax2		#call FindMax2 for new a1 and a3
 			#FindMax2 will return v0 = max of all 3 values.
 
-move $a1, $t1		#return the values from temp to arg
-move $a2, $t2
-move $a3, $t3
+move $a1, $t1		#restores original a1 value
+move $a2, $t2           #restores original a2 value
+move $a3, $t3           #restores original a3 value
 
 
 lw $ra, 0($sp)		#loads caller address and jumps to it
-addiu $sp, $sp, 8
+lw $fp, 4($sp)          #restores frame pointer
+addiu $sp, $sp, 8       #restore stack
 jr $ra
 
