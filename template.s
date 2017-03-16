@@ -147,28 +147,34 @@ sw $a2, 16($sp)                 		# m stored on stack frame
 sw $a3, 20($sp)							# e store in stack
 addiu $fp, $sp, 32              		# end callee organizational tasks, setup $fp
 
-
+lw $a0, 8($sp)							#loads arr[]
 lw $a1, 12($sp)                 		#s loaded from stack frame
 lw $a2, 16($sp)                 		#m loaded from stack frame
-li $a3,  0 						#load d=0
-jal MaxSumBoundary				#call MSB
-sw $v0, 24($sp)					#store resulting LH Sum in stack
+li $a3,  0 								#load d=0
+jal MaxSumBoundary						#call MSB
+sw $v0, 24($sp)							#store resulting LH Sum in stack
 
 
 lw $a1, 16($sp)         		        #m loaded from stack frame
 lw $a2, 20($sp)                 		#e loaded from stack frame
-addi $a1, $a1, 1				#calculate m+1
-li $a3, 1						#load d=1
-jal MaxSumBoundary				#call MSB
-sw $v0, 28($sp)					#store resulting RH Sum in stack
+addi $a1, $a1, 1						#calculate m+1
+li $a3, 1								#load d=1
+jal MaxSumBoundary						#call MSB
+sw $v0, 28($sp)							#store resulting RH Sum in stack
+
+lw $t1, 24($sp)							#load the LH Sum
+lw $t2, 28($sp)							#load the RH Sum
+add $v0, $t1, $t2						#Add LH and RH Sums to get Crossing Sum
+
 
 # Restoring values
-lw $ra, 0($sp)                     # $ra stored on stack frame
-lw $fp, 4($sp)                     # $fp stored on stack frame
-lw $t1, 24($sp)					#load the LH Sum
-lw $t2, 28($sp)					#load the RH Sum
-add $v0, $t1, $t2				#Add LH and RH Sums to get Crossing Sum
-addiu $sp, $sp, 32                 # Restores stack frame
+lw $ra, 0($sp)                 		    # $ra stored on stack frame
+lw $fp, 4($sp)                 		    # $fp stored on stack frame
+lw $a0, 8($sp)                  		# arr[] stored on stack frame
+lw $a1, 12($sp)                 		# loads s stored on stack frame
+lw $a2, 16($sp)                 		# loads m stored on stack frame
+lw $a3, 20($sp)							# loads e store in stack
+addiu $sp, $sp, 32            		    # Restores stack frame
 jr $ra
 
 ##########################################################
