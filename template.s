@@ -299,7 +299,7 @@ jal FindMax2				#call FindMax2 for a1 and a3 comparison
 
 lw $a1, 12($sp)                    	#load back 1st number 
 lw $a2, 16($sp) 			#load back 2nd number
-lw $a3, 20($sp				#load back 3rd number
+lw $a3, 20($sp)				#load back 3rd number
 lw $ra, 0($sp)				#loads caller address
 addio $sp, $sp, 32			#pop stack
 
