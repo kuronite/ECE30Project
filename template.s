@@ -87,8 +87,9 @@ lw $a1, 12($sp)            # loads s
 sll $t1, $a1, 2            # shifts 8 bits to find value of arr
 add $t0, $t1, $a0          # t0 = arr[s] + x
 
-lw $a1, 0($t0)             # loads arr[s]
-add $t1, $a1, $v0          # Updates MaxSubArray
+lw $t2, 0($t0)             # loads arr[s]
+add $a1, $t2, $0          # Updates MaxSubArray
+add $a2, $t2, $v0
 jal FindMax2               # Calls FindMax2 to find new max
 j end_MaxSumBoundary
 
@@ -109,8 +110,9 @@ lw $a2, 16($sp)           # load e
 sll $t1, $a2, 2           # shift 8 bits to find value of arr
 add $t0, $t1, $a0         # to = e + arr[]
 
-lw $a2, 0($t0)            # gets value of t0
-add $t1, $v0, $a2         # Updates MaxSubArray
+lw $t2, 0($t0)            # gets value of t0
+add $a1, $t2, $0          # Updates MaxSubArray
+add $a2, $t2, $v0
 jal FindMax2              # Calls FindMax2 to find new max
 j end_MaxSumBoundary
 
