@@ -297,7 +297,7 @@ jal FindMax2						#call FindMax2 for a1 and a3 comparison
 
 lw $a1, 12($sp)                    	#load numbers 1-3
 lw $a2, 16($sp)
-lw $a3, 20($sp
+lw $a3, 20($sp)
 lw $ra, 0($sp)						#loads caller address and jumps to it
 addiu $sp, $sp, 32
 
