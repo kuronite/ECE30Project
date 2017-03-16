@@ -107,7 +107,7 @@ sw $v0, 24($sp)           # returns a maximum subarray
 lw $a0, 8($sp)            # load arr[]
 lw $a2, 16($sp)           # load e
 sll $t1, $a2, 2           # shift 8 bits to find value of arr
-add $t0, $a2, $a0         # to = e + arr[]
+add $t0, $t1, $a0         # to = e + arr[]
 
 lw $a2, 0($t0)            # gets value of t0
 add $t1, $v0, $a2         # Updates MaxSubArray
